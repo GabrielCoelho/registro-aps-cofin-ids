@@ -2,7 +2,9 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#023E48">
+    <meta name="description" content="Guia de registro no IDS Saúde para os indicadores 2025 do cofinanciamento da APS (eSF e eAP).">
     <title>Indicadores APS 2025 — o que registrar no IDS Saúde</title>
     <style>
       :root {
@@ -326,10 +328,87 @@
         padding: 16px;
         color: var(--mut);
       }
+    
+  /* ---------- responsivo ---------- */
+  html{-webkit-text-size-adjust:100%}
+  img{max-width:100%;height:auto}
+  .wrap{padding-left:max(32px, env(safe-area-inset-left));padding-right:max(32px, env(safe-area-inset-right))}
+  .idx>summary{display:none}
+  .idx .idxbody{display:block}
+
+  @media (max-width:900px){
+    .wrap{align-items:stretch}
+    main{width:100%;max-width:100%;min-width:0}
+    figure{max-width:100%}
+    header{padding:20px 18px 18px}
+    header h1{font-size:24px}
+    header p{font-size:13px}
+    .wrap{padding:14px 16px 72px;gap:14px}
+    nav{position:sticky;top:0;z-index:20;background:#fff;padding:10px 0 8px;
+        border-bottom:1px solid var(--line);margin:-14px -16px 6px;
+        padding-left:16px;padding-right:16px;width:auto}
+    nav .search{margin-bottom:8px;font-size:16px;padding:11px 12px}  /* 16px evita zoom no iOS */
+    .idx>summary{display:block;list-style:none;cursor:pointer;font-size:14px;font-weight:700;
+        color:var(--deep);padding:9px 12px;border:1px solid var(--line);border-radius:8px;
+        background:var(--card)}
+    .idx>summary::-webkit-details-marker{display:none}
+    .idx>summary::after{content:"▾";float:right;color:var(--prim)}
+    .idx[open]>summary::after{content:"▴"}
+    .idx .idxbody{display:none;padding-top:6px;max-height:60vh;overflow:auto}
+    .idx[open] .idxbody{display:block}
+    nav a{padding:11px 10px}
+    nav .grp{margin:10px 0 2px}
+    section{margin-bottom:26px;scroll-margin-top:calc(var(--navh, 140px) + 12px)}
+    h2{font-size:20px;gap:10px}
+    .code{width:34px;height:34px;font-size:14px}
+    .sub{font-size:13px;margin-left:44px}
+    .card,.warn{padding:13px 14px;border-radius:9px}
+    .card h3{font-size:14px}
+    .two{gap:10px}
+    .ci{white-space:normal}
+    .codes{gap:6px 10px}
+    footer{padding:16px;padding-bottom:64px}
+  }
+
+  /* tabelas viram blocos em tela estreita */
+  @media (max-width:640px){
+    table,thead,tbody,tr,th,td{display:block}
+    thead,tr.thead-row{display:none}
+    code{white-space:normal;word-break:break-word}
+    tr{border:1px solid var(--line);border-radius:9px;padding:7px 10px;margin-bottom:7px;background:#fff}
+    .dark tr{background:#0A4E5A;border-color:#0A5A68}
+    td{border:0;padding:3px 0}
+    td:empty{display:none}
+    td::before{content:attr(data-label);display:block;font-size:10.5px;text-transform:uppercase;
+        letter-spacing:.4px;color:var(--mut);margin-bottom:0}
+    .dark td::before{color:#7FB3BA}
+    td.bp,td.pts{white-space:normal;text-align:left}
+    td.pts{color:var(--prim)}
+    figure{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    figure img{min-width:680px}
+    figcaption{position:sticky;left:0}
+    .hint-scroll{font-size:11px;color:var(--mut);margin-top:4px}
+  }
+
+  /* botão voltar ao topo */
+  .totop{position:fixed;right:12px;width:42px;height:42px;border-radius:50%;
+    background:var(--deep);color:#fff;display:none;align-items:center;justify-content:center;
+    text-decoration:none;font-size:19px;line-height:1;border:2px solid #fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.28);z-index:30;
+    bottom:max(12px, env(safe-area-inset-bottom))}
+  .totop.show{display:flex}
+  @media (min-width:901px){.totop{display:none!important}}
+
+  @media print{
+    nav,.totop{display:none}
+    .wrap{display:block;padding:0}
+    section{break-inside:avoid}
+  }
+
     </style>
   </head>
   <body>
-    <header>
+    <header id="topo">
       <div class="kick">
         Cofinanciamento federal da APS · componente qualidade
       </div>
@@ -351,6 +430,7 @@
           placeholder="Buscar código, campo, tela…"
           autocomplete="off"
         />
+      <details class="idx" open><summary>Índice do guia</summary><div class="idxbody">
         <div class="grp">Geral</div>
         <a href="#regras">As quatro condições</a>
         <a href="#prereq">Cadastros e parâmetros</a>
@@ -366,7 +446,8 @@
         <div class="grp">Apoio</div>
         <a href="#erros">Erros mais comuns</a>
         <a href="#fontes">Fontes</a>
-      </nav>
+      </div></details>
+    </nav>
 
       <main>
         <p class="empty" id="empty">Nenhum trecho corresponde à busca.</p>
@@ -1606,6 +1687,8 @@
       de 2026
     </footer>
 
+    <a class="totop" href="#topo" aria-label="Voltar ao topo">↑</a>
+
     <script>
       (function () {
         var q = document.getElementById('q');
@@ -1638,7 +1721,68 @@
           });
           empty.style.display = shown ? 'none' : 'block';
         });
-        document.querySelectorAll('nav a').forEach(function (a) {
+  
+      var idxEl = document.querySelector('details.idx');
+
+      // a tabela usa <tr><th> em vez de <thead>: marcar para esconder no modo bloco
+      document.querySelectorAll('table tr').forEach(function (tr) {
+        if (tr.querySelector('th') && !tr.querySelector('td')) tr.classList.add('thead-row');
+      });
+
+      // altura real do indice fixo, para as ancoras nao ficarem escondidas atras dele
+      var navEl = document.querySelector('nav');
+      function medirNav() {
+        if (!navEl) return;
+        var alt = navEl.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--navh', Math.round(alt) + 'px');
+      }
+      // no celular o indice comeca recolhido; no desktop fica sempre aberto
+      if (idxEl && window.matchMedia('(max-width:900px)').matches) idxEl.open = false;
+      medirNav();
+      window.addEventListener('resize', medirNav, { passive: true });
+      if (idxEl) idxEl.addEventListener('toggle', medirNav);
+
+      // rotulos de coluna para o modo tabela-em-blocos (telas estreitas)
+      document.querySelectorAll('table').forEach(function (t) {
+        var ths = t.querySelectorAll('tr:first-child th');
+        if (!ths.length) return;
+        var labels = Array.prototype.map.call(ths, function (th) { return th.textContent.trim(); });
+        t.querySelectorAll('tr').forEach(function (tr) {
+          tr.querySelectorAll('td').forEach(function (td, i) {
+            if (labels[i]) td.setAttribute('data-label', labels[i]);
+          });
+        });
+      });
+
+      // aviso de arraste nas telas do IDS (imagens largas)
+      document.querySelectorAll('figure').forEach(function (f) {
+        var cap = f.querySelector('figcaption');
+        if (cap && !/arraste/i.test(cap.textContent)) {
+          var s = document.createElement('span');
+          s.className = 'hint-scroll';
+          s.textContent = 'Arraste a imagem para o lado para ver a tela inteira.';
+          cap.appendChild(document.createElement('br'));
+          cap.appendChild(s);
+        }
+      });
+
+      // no celular, fechar o indice depois de escolher uma secao
+      var idx = document.querySelector('details.idx');
+      document.querySelectorAll('nav a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          if (idx && window.matchMedia('(max-width:900px)').matches) idx.open = false;
+        });
+      });
+
+      // botao voltar ao topo
+      var top = document.querySelector('.totop');
+      if (top) {
+        window.addEventListener('scroll', function () {
+          top.classList.toggle('show', window.scrollY > 700);
+        }, { passive: true });
+      }
+
+      document.querySelectorAll('nav a').forEach(function (a) {
           a.addEventListener('click', function () {
             q.value = '';
             q.dispatchEvent(new Event('input'));
